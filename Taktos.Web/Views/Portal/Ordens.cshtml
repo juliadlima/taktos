@@ -1,0 +1,125 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/ordens.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho">
+  <p id="mensagem" role="alert"></p>
+  <p id="retorno" class="apoio" role="status"></p>
+  <section id="visao" hidden>
+    <div class="cabecalho">
+      <div><h1 id="titulo-pagina" tabindex="-1">Ordens de serviço</h1><p id="identidade" class="apoio"></p></div>
+      <div class="acoes">
+        <button id="atualizar" class="secundario botao-atualizar" type="button">Atualizar</button>
+        <button id="abrir-nova" class="botao-adicionar" type="button" hidden><span class="icone-adicionar" aria-hidden="true">+</span>Nova OS</button>
+      </div>
+    </div>
+    <section id="nova" tabindex="-1" class="painel" aria-labelledby="titulo-nova" hidden>
+      <h2 id="titulo-nova" tabindex="-1">Abrir ordem de serviço</h2>
+      <form id="form-nova">
+        <div class="grade">
+          <p><label for="sistema-novo">Sistema</label><select id="sistema-novo" name="sistemaId" required></select></p>
+          <p><label for="tipo-novo">Tipo</label><select id="tipo-novo" name="tipo" required><option value="Correcao">Correção</option><option value="Melhoria">Melhoria</option></select></p>
+        </div>
+        <p><label for="titulo-novo">Título</label><input id="titulo-novo" name="titulo" maxlength="150" required></p>
+        <p><label for="descricao-nova">Descrição</label><textarea id="descricao-nova" name="descricao" maxlength="4000" required></textarea></p>
+        <div class="acoes"><button type="submit">Registrar OS</button><button id="cancelar-nova" class="secundario" type="button">Cancelar</button></div>
+      </form>
+    </section>
+    <section id="metricas" tabindex="-1" class="grade metricas" aria-label="Indicadores da lista filtrada">
+      <div class="painel indicador"><span id="nome-m-previsao">OSs abertas sem previsão</span><strong class="metrica" id="m-previsao">0</strong></div>
+      <div class="painel indicador"><span id="nome-m-prazo">Primeiras entregas no prazo</span><strong class="metrica" id="m-prazo">0</strong></div>
+      <div class="painel indicador"><span id="nome-m-devolucao">Versões devolvidas</span><strong class="metrica" id="m-devolucao">0</strong></div>
+      <div id="indicadores-personalizados"></div>
+    </section>
+    <p id="aviso-indicadores" class="apoio" role="status" hidden>Não foi possível carregar os indicadores personalizados.</p>
+    <section id="filtros-ordens" tabindex="-1" class="painel filtros filtros-ordens" aria-label="Filtros das ordens" aria-describedby="filtros-ajuda">
+      <p id="filtros-ajuda" class="apoio ajuda-filtros">Você pode marcar mais de uma pessoa nos filtros Solicitante e Responsável.</p>
+      <div><label for="f-sistema">Sistema</label><select id="f-sistema"></select></div>
+      <div><label for="f-situacao">Situação</label><select id="f-situacao"></select></div>
+      <div><label for="f-previsao">Previsão</label><select id="f-previsao"><option value="">Todas</option><option value="pendentes">Aguardando previsão</option><option value="definidas">Data definida</option></select></div>
+      <div>
+        <span id="rotulo-solicitante" class="rotulo-filtro">Solicitante</span>
+        <details class="filtro-pessoas">
+          <summary aria-labelledby="rotulo-solicitante resumo-solicitante"><span id="resumo-solicitante">Todos</span></summary>
+          <div id="opcoes-solicitante" class="opcoes-pessoas" role="group" aria-labelledby="rotulo-solicitante"></div>
+          <button id="limpar-solicitante" type="button" class="secundario" aria-label="Limpar seleção de solicitantes" hidden>Limpar seleção</button>
+        </details>
+      </div>
+      <div>
+        <span id="rotulo-responsavel" class="rotulo-filtro">Responsável</span>
+        <details class="filtro-pessoas">
+          <summary aria-labelledby="rotulo-responsavel resumo-responsavel"><span id="resumo-responsavel">Todos</span></summary>
+          <div id="opcoes-responsavel" class="opcoes-pessoas" role="group" aria-labelledby="rotulo-responsavel"></div>
+          <button id="limpar-responsavel" type="button" class="secundario" aria-label="Limpar seleção de responsáveis" hidden>Limpar seleção</button>
+        </details>
+      </div>
+    </section>
+    <div id="lista-ordens" tabindex="-1" class="barra-listagem">
+      <p id="quantidade" class="apoio" role="status" aria-atomic="true"></p>
+      <div id="modos" class="acoes controle-segmentado" hidden>
+        <button type="button" id="ver-lista" class="secundario" aria-pressed="false">Lista</button>
+        <button type="button" id="ver-kanban" class="secundario" aria-pressed="true">Kanban</button>
+      </div>
+    </div>
+    <div id="lista" class="grade" role="region" aria-label="Lista de ordens"></div>
+    <div id="kanban" tabindex="0" role="region" aria-label="Quadro Kanban" hidden></div>
+  </section>
+
+  <section id="detalhe" hidden>
+    <div class="cabecalho">
+      <div><p id="detalhe-numero" class="apoio"></p><h1 id="detalhe-titulo" tabindex="-1"></h1></div>
+      <button id="voltar" class="secundario" type="button">Voltar às ordens</button>
+    </div>
+    <div class="grade-detalhe">
+    <section class="painel resumo-os" aria-label="Dados da ordem"><dl id="dados-os" class="grade"></dl><p id="descricao-os" class="quebra"></p></section>
+
+    <section id="triagem" class="painel painel-triagem" aria-labelledby="titulo-triagem" hidden>
+      <h2 id="titulo-triagem">Triagem</h2>
+      <form id="form-triagem">
+        <div class="filtros">
+          <p><label for="t-situacao">Alterar situação</label><select id="t-situacao" name="situacao"></select></p>
+          <p><label for="t-prioridade">Prioridade</label><select id="t-prioridade" name="prioridade"><option value="">A definir</option><option value="Baixa">Baixa</option><option value="Media">Média</option><option value="Alta">Alta</option></select></p>
+          <p><label for="t-responsavel">Responsável</label><select id="t-responsavel" name="responsavelId"></select></p>
+          <p><label for="t-previsao">Previsão de entrega</label><input id="t-previsao" name="previsao" type="date"></p>
+        </div>
+        <div><button type="submit">Salvar triagem</button></div>
+      </form>
+    </section>
+
+    <section class="painel painel-entregas" aria-labelledby="titulo-entregas">
+      <h2 id="titulo-entregas">Entregas e homologação</h2>
+      <div id="entregas"></div>
+      <form id="form-entrega" hidden>
+        <h3>Registrar versão e encaminhar para homologação</h3>
+        <div class="grade">
+          <p><label for="versao">Versão</label><input id="versao" name="versao" maxlength="60" required></p>
+          <p><label for="gmud">Referência da GMUD</label><input id="gmud" name="gmud" maxlength="150" required></p>
+        </div>
+        <p><label for="gmud-link">Link HTTPS da GMUD (opcional)</label><input id="gmud-link" name="linkGmud" type="url" maxlength="600"></p>
+        <p><label for="testes">Resumo dos testes (opcional)</label><textarea id="testes" name="resumoTestes" maxlength="2000"></textarea></p>
+        <div><button type="submit">Enviar para homologação</button></div>
+      </form>
+      <form id="form-homologacao" hidden>
+        <h3 id="titulo-homologacao">Validar versão</h3>
+        <input type="hidden" name="entregaId">
+        <p><label for="resultado">Resultado</label><select id="resultado" name="resultado" required><option value="">Selecione</option><option value="Aprovada">Aprovar</option><option value="Devolvida">Devolver para ajuste</option></select></p>
+        <p><label for="motivo">Motivo da decisão (obrigatório ao devolver)</label><textarea id="motivo" name="motivo" maxlength="2000"></textarea></p>
+        <div><button type="submit">Registrar decisão</button></div>
+      </form>
+    </section>
+
+    <section class="painel painel-mensagens" aria-labelledby="titulo-mensagens">
+      <h2 id="titulo-mensagens">Mensagens</h2>
+      <div id="mensagens"></div>
+      <form id="form-mensagem">
+        <p><label for="tipo-mensagem">Tipo</label><select id="tipo-mensagem" name="tipo"></select></p>
+        <p><label for="texto-mensagem">Mensagem</label><textarea id="texto-mensagem" name="texto" maxlength="2000" required></textarea></p>
+        <div><button type="submit">Enviar mensagem</button></div>
+      </form>
+    </section>
+    <section class="painel painel-historico" aria-labelledby="titulo-historico"><h2 id="titulo-historico">Histórico</h2><div id="historico"></div></section>
+    </div>
+  </section>
+</main>

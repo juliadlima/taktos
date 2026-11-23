@@ -1,0 +1,50 @@
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: "${TAKTOS_SQL_PASSWORD:?Defina TAKTOS_SQL_PASSWORD no .env}"
+    volumes:
+      - sql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -b -Q 'SELECT 1' >/dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    restart: unless-stopped
+
+  preparar-banco:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    entrypoint: ["/bin/bash", "/opt/taktos/infra/iniciar-banco.sh"]
+    environment:
+      TAKTOS_SQL_PASSWORD: "${TAKTOS_SQL_PASSWORD:?Defina TAKTOS_SQL_PASSWORD no .env}"
+      TAKTOS_APP_SQL_PASSWORD: "${TAKTOS_APP_SQL_PASSWORD:?Defina TAKTOS_APP_SQL_PASSWORD no .env}"
+    volumes:
+      - ./banco:/opt/taktos/banco:ro
+      - ./infra:/opt/taktos/infra:ro
+    depends_on:
+      sql:
+        condition: service_healthy
+
+  portal:
+    image: "${TAKTOS_IMAGE:-taktos-local}"
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: "${TAKTOS_ENV:-Development}"
+      ASPNETCORE_HTTP_PORTS: "8080"
+      Taktos__Chaves: /var/taktos/chaves
+      ConnectionStrings__PortalEntregas: "Server=sql;Database=PortalEntregas;User ID=taktos_app;Password=${TAKTOS_APP_SQL_PASSWORD:?Defina TAKTOS_APP_SQL_PASSWORD no .env};Encrypt=True;TrustServerCertificate=True;Connect Timeout=5"
+    depends_on:
+      preparar-banco:
+        condition: service_completed_successfully
+    ports:
+      - "127.0.0.1:${TAKTOS_HTTP_PORT:-5097}:8080"
+    volumes:
+      - chaves-portal:/var/taktos/chaves
+    restart: unless-stopped
+
+volumes:
+  sql-data:
+  chaves-portal:

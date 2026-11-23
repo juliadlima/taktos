@@ -1,0 +1,11 @@
+{
+  "solution": {
+    "path": "Taktos.sln",
+    "projects": [
+      "Taktos.API\\Taktos.API.csproj",
+      "Taktos.Domain\\Taktos.Domain.csproj",
+      "Taktos.Infrastructure\\Taktos.Infrastructure.csproj",
+      "Taktos.Web\\Taktos.Web.csproj"
+    ]
+  }
+}

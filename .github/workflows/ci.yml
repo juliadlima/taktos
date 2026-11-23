@@ -1,0 +1,69 @@
+name: Compilar e validar o Taktos
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: dotnet build Taktos.API/Taktos.API.csproj -c Release -p:PortalFramework=net10.0
+      - run: |
+          node --check Taktos.Web/wwwroot/acesso.js
+          node --check Taktos.Web/wwwroot/ordens.js
+          node --check Taktos.Web/wwwroot/cadastro.js
+          node --check Taktos.Web/wwwroot/formularios.js
+      - name: Subir ambiente integrado
+        run: |
+          printf 'TAKTOS_SQL_PASSWORD=Demo9!%s\n' "$(openssl rand -hex 16)" > .env
+          printf 'TAKTOS_APP_SQL_PASSWORD=Demo9%s\n' "$(openssl rand -hex 16)" >> .env
+          docker compose up -d --build
+          for tentativa in $(seq 1 40); do
+            if curl -fs http://localhost:5097/health/db >/dev/null; then exit 0; fi
+            sleep 3
+          done
+          exit 1
+      - name: Verificar a jornada completa
+        run: |
+          set -euo pipefail
+          contas="$(docker compose exec -T portal dotnet Taktos.API.dll preparar-contas)"
+          export TAKTOS_TEST_FORNECEDORA="$(awk '/^fornecedora@portal.test / {print $2}' <<< "$contas")"
+          export TAKTOS_TEST_ALFA="$(awk '/^ti.alfa@portal.test / {print $2}' <<< "$contas")"
+          export TAKTOS_TEST_BETA="$(awk '/^ti.beta@portal.test / {print $2}' <<< "$contas")"
+          curl -fs http://localhost:5097/_content/Taktos.Web/ordens.js >/dev/null
+          node infra/validar.mjs
+      - if: failure()
+        run: docker compose logs --no-color
+      - if: always()
+        run: docker compose down -v
+
+  imagem:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: validar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publicar imagem com a tag da revisão
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          imagem="ghcr.io/${GITHUB_REPOSITORY,,}"
+          printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker build -t "$imagem:$GITHUB_SHA" -t "$imagem:main" .
+          docker push "$imagem:$GITHUB_SHA"
+          docker push "$imagem:main"

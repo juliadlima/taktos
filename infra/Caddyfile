@@ -1,0 +1,9 @@
+{$TAKTOS_DOMINIO} {
+    encode gzip
+    header {
+        Strict-Transport-Security "max-age=15552000"
+        X-Content-Type-Options nosniff
+    }
+    reverse_proxy portal:8080
+    log
+}

@@ -1,0 +1,46 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho pagina-conta pagina-administracao">
+  <h1>Meu perfil</h1>
+  <p id="mensagem" role="alert"></p>
+  <p id="retorno" role="status"></p>
+  <section id="dados-perfil" tabindex="-1" class="painel painel-conta" aria-label="Dados da conta">
+    <dl class="dados-conta grade">
+      <div><dt>Empresa</dt><dd id="perfil-empresa"></dd></div>
+      <div><dt>Perfil</dt><dd id="perfil-papel"></dd></div>
+    </dl>
+    <form id="form-perfil" method="post" action="/api/acesso/perfil" hidden>
+      <div class="grade">
+        <p><label for="perfil-nome">Nome completo</label><input id="perfil-nome" name="nome" autocomplete="name" maxlength="120" required></p>
+        <p><label for="perfil-email">E-mail</label><input id="perfil-email" name="email" type="email" autocomplete="username" maxlength="254" required></p>
+      </div>
+      <p id="seguranca-perfil" tabindex="-1" class="apoio">Informe a senha atual se quiser alterar o e-mail ou a senha.</p>
+      <p><label for="perfil-senha-atual">Senha atual</label><input id="perfil-senha-atual" name="senhaAtual" type="password" autocomplete="current-password" maxlength="128"></p>
+      <div class="grade">
+        <p><label for="perfil-senha-nova">Nova senha</label><input id="perfil-senha-nova" name="senhaNova" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="perfil-senha-ajuda"><small id="perfil-senha-ajuda">De 12 a 128 caracteres.</small></p>
+        <p><label for="perfil-confirmacao">Confirme a nova senha</label><input id="perfil-confirmacao" name="confirmacao" type="password" autocomplete="new-password" maxlength="128"></p>
+      </div>
+      <div><button type="submit">Salvar alterações</button></div>
+    </form>
+  </section>
+  @if (User.IsInRole("Fornecedora") && User.HasClaim("administrador_fornecedora", "true"))
+  {
+    <section id="identidade-fornecedora" tabindex="-1" class="painel" aria-labelledby="titulo-identidade">
+      <h2 id="titulo-identidade">Identidade da fornecedora</h2>
+      <p class="apoio">Esses nomes aparecem para toda a equipe da sua fornecedora.</p>
+      <form id="form-identidade" method="post" action="/api/equipe/identidade" hidden>
+        <div class="grade">
+          <p><label for="identidade-empresa">Nome da empresa</label><input id="identidade-empresa" name="empresa" maxlength="120" required></p>
+          <p><label for="identidade-perfil">Nome do perfil</label><input id="identidade-perfil" name="perfil" maxlength="120" required></p>
+        </div>
+        <p id="retorno-identidade" role="status"></p>
+        <button type="submit">Salvar nomes</button>
+      </form>
+    </section>
+  }
+  <noscript>Habilite o JavaScript para usar esta página.</noscript>
+</main>

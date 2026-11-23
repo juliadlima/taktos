@@ -1,0 +1,22 @@
+services:
+  portal:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+  proxy:
+    image: caddy:2
+    environment:
+      TAKTOS_DOMINIO: "${TAKTOS_DOMINIO:?Defina TAKTOS_DOMINIO no .env}"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - portal
+    restart: unless-stopped
+
+volumes:
+  caddy-data:
+  caddy-config:

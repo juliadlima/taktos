@@ -1,0 +1,17 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho pagina-conta">
+  <div class="cabecalho">
+    <div><h1>Usuários da empresa</h1><p id="usuarios-empresa" class="apoio"></p></div>
+  </div>
+  <p id="mensagem" role="alert"></p>
+  <section id="diretorio-usuarios" tabindex="-1" class="painel painel-conta" aria-label="Usuários da empresa" aria-busy="true">
+    <p id="usuarios-contagem" class="apoio" role="status"></p>
+    <ul id="usuarios-lista" class="lista-equipe"></ul>
+  </section>
+  <noscript>Habilite o JavaScript para usar esta página.</noscript>
+</main>

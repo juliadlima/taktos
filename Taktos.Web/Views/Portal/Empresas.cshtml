@@ -1,0 +1,30 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho pagina-conta pagina-empresas pagina-administracao">
+  <h1>Empresas</h1>
+  <p class="apoio">Cadastre as empresas que sua equipe atende e os sistemas para os quais elas poderão abrir OSs.</p>
+  <p id="mensagem" role="alert"></p>
+  <p id="retorno" role="status"></p>
+
+  <section id="nova-empresa" tabindex="-1" class="painel" aria-labelledby="titulo-nova-empresa">
+    <h2 id="titulo-nova-empresa">Nova empresa cliente</h2>
+    <form id="form-empresa" method="post" action="/api/empresas" hidden>
+      <label for="nome-empresa">Nome da empresa</label>
+      <div class="form-empresa">
+        <input id="nome-empresa" name="nome" maxlength="120" autocomplete="off" required>
+        <button type="submit">Cadastrar empresa</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="empresas-cadastradas" tabindex="-1" class="painel painel-conta" aria-labelledby="titulo-empresas-cadastradas">
+    <h2 id="titulo-empresas-cadastradas">Empresas cadastradas</h2>
+    <p class="apoio">Compartilhe o nome ou o código da empresa para que sua equipe possa solicitar acesso.</p>
+    <div id="lista-empresas" aria-busy="true"></div>
+  </section>
+  <noscript>Habilite o JavaScript para cadastrar empresas.</noscript>
+</main>

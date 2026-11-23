@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>$(PortalFramework)</TargetFramework></PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Taktos.Domain/Taktos.Domain.csproj" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.8" />
+  </ItemGroup>
+</Project>

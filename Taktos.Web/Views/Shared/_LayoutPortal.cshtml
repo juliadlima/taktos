@@ -1,0 +1,128 @@
+@model Taktos.Web.Models.PaginaPortal
+@{
+    var interna = User.Identity?.IsAuthenticated == true;
+    var cliente = User.IsInRole("Cliente");
+    var fornecedora = User.IsInRole("Fornecedora");
+    var administrador = fornecedora && User.HasClaim("administrador_fornecedora", "true");
+    var rota = Context.Request.Path.Value?.TrimEnd('/');
+    var menus = new (string Rota, string Nome, string Icone, bool Permitido, (string Id, string Nome, bool Permitido)[] Secoes)[]
+    {
+        ("/ordens.html", "Ordens de serviço", "ordens", true, new[]
+        {
+            ("nova", "Nova OS", cliente),
+            ("metricas", "Indicadores das OSs", true),
+            ("filtros-ordens", "Filtros", true),
+            ("lista-ordens", "Lista de OSs", true)
+        }),
+        ("/empresas.html", "Empresas", "empresas", fornecedora, new[]
+        {
+            ("nova-empresa", "Nova empresa cliente", true),
+            ("empresas-cadastradas", "Empresas cadastradas", true)
+        }),
+        ("/aprovacoes.html", "Aprovações de cadastro", "cadastro", fornecedora, new[]
+        {
+            ("solicitacoes-pendentes", "Solicitações pendentes", true),
+            ("criar-conta-manual", "Criar conta manualmente", true),
+            ("contas-cadastradas", "Contas cadastradas", true)
+        }),
+        ("/indicadores.html", "Indicadores", "indicadores", fornecedora, new[]
+        {
+            ("novo-indicador", "Novo indicador", true),
+            ("indicadores-cadastrados", "Indicadores cadastrados", true)
+        }),
+        ("/equipe.html", "Equipe fornecedora", "perfil", administrador, new[]
+        {
+            ("novo-usuario", "Novo usuário", true),
+            ("usuarios-fornecedora", "Usuários da fornecedora", true),
+            ("consultor-adm", "Consultor ADM", true)
+        }),
+        ("/usuarios.html", "Usuários da empresa", "perfil", cliente, new[]
+        {
+            ("diretorio-usuarios", "Usuários cadastrados", true)
+        }),
+        ("/perfil.html", "Meu perfil", "perfil", true, new[]
+        {
+            ("dados-perfil", "Dados da conta", true),
+            ("seguranca-perfil", "Alterar senha", true),
+            ("identidade-fornecedora", "Identidade da fornecedora", administrador)
+        }),
+        ("/guia.html", "Guia de uso", "guia", true, new[]
+        {
+            ("guia-acesso", "Criar conta e entrar", true),
+            ("guia-abrir", "Abrir e acompanhar uma OS", true),
+            ("guia-triagem", "Triar e tratar a demanda", true),
+            ("guia-mensagens", "Trocar mensagens e validar versões", true),
+            ("guia-convivencia", "Convivência no atendimento", true),
+            ("guia-termos", "Termos do portal", true)
+        }),
+        ("/ajuda.html", "Ajuda e acessibilidade", "guia", true, new[]
+        {
+            ("orientacao-ajuda", "Como pedir ajuda", true),
+            ("novo-relato", "Registrar relato", true),
+            ("acompanhar-relatos", "Acompanhar relatos", true)
+        })
+    };
+}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142135">
+  <title>@Model.Titulo | @Model.NomePortal</title>
+  <link rel="stylesheet" href="/_content/Taktos.Web/portal.css">
+  @if (interna)
+  {
+    <script src="/_content/Taktos.Web/menu.js" defer></script>
+  }
+  <script src="/_content/Taktos.Web/formularios.js" defer></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</head>
+<body class="@(interna ? "pagina-interna" : "pagina-publica")">
+<a class="atalho-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+@if (interna)
+{
+  <header class="menu-lateral">
+    <a class="marca" href="/" aria-label="Taktos, início"><span class="marca-simbolo" aria-hidden="true"></span><span>@Model.NomePortal</span></a>
+    <nav aria-label="Navegação do portal">
+      <ul class="menu-itens">
+      @foreach (var menu in menus)
+      {
+        if (!menu.Permitido) { continue; }
+        var atual = string.Equals(rota, menu.Rota, StringComparison.OrdinalIgnoreCase);
+        <li class="@(atual ? "menu-item menu-item-atual" : "menu-item")">
+          <a class="menu-link" href="@menu.Rota" aria-current="@(atual ? "page" : null)">
+            <span class="@("icone-menu icone-" + menu.Icone)" aria-hidden="true"></span>@menu.Nome
+          </a>
+          @if (atual)
+          {
+            <ul class="submenu" aria-label="Seções de @menu.Nome">
+            @foreach (var secao in menu.Secoes)
+            {
+              if (!secao.Permitido) { continue; }
+              <li><a href="@("#" + secao.Id)">@secao.Nome</a></li>
+            }
+            </ul>
+          }
+        </li>
+      }
+      </ul>
+    </nav>
+    <div class="menu-rodape">
+      <button class="menu-sair" id="sair" type="button"><span class="icone-menu icone-sair" aria-hidden="true"></span>Sair</button>
+      <p id="mensagem-menu" role="alert"></p>
+    </div>
+  </header>
+}
+else
+{
+  <header class="site-header">
+    <div class="site-wrap site-nav">
+      <a class="marca" href="/" aria-label="Taktos, início"><span class="marca-simbolo" aria-hidden="true"></span><span>@Model.NomePortal</span></a>
+      <nav aria-label="Navegação"><a href="/guia.html">Guia de uso</a><a href="/ajuda.html">Ajuda e acessibilidade</a></nav>
+    </div>
+  </header>
+}
+@RenderBody()
+</body>
+</html>

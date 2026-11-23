@@ -1,0 +1,46 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho pagina-conta pagina-administracao">
+  <h1>Indicadores</h1>
+  <p class="apoio">Crie e edite os cartões de contagem da tela de ordens de serviço.</p>
+  <p id="mensagem" role="alert"></p>
+  <p id="retorno" role="status"></p>
+
+  <section id="novo-indicador" tabindex="-1" class="painel" aria-labelledby="titulo-novo-indicador">
+    <h2 id="titulo-novo-indicador">Novo indicador</h2>
+    <form id="form-indicador" method="post" action="/api/indicadores" hidden>
+      <div class="grade">
+        <p><label for="indicador-nome">Nome do cartão</label><input id="indicador-nome" name="nome" maxlength="120" required></p>
+        <p>
+          <label for="indicador-criterio">O que contar</label>
+          <select id="indicador-criterio" name="criterio" required>
+            <option value="">Selecione</option>
+            <option value="Total">Todas as OSs</option>
+            <option value="Aberta">OSs na situação Aberta</option>
+            <option value="EmAnalise">OSs em análise</option>
+            <option value="EmExecucao">OSs em execução</option>
+            <option value="EmHomologacao">OSs em homologação</option>
+            <option value="Concluida">OSs concluídas</option>
+            <option value="SemResponsavel">OSs sem responsável</option>
+            <option value="Correcao">OSs de correção</option>
+            <option value="Melhoria">OSs de melhoria</option>
+            <option value="SemPrevisao">OSs abertas sem previsão</option>
+            <option value="PrimeirasNoPrazo">Primeiras entregas no prazo</option>
+            <option value="VersoesDevolvidas">Versões devolvidas</option>
+          </select>
+        </p>
+      </div>
+      <div class="acoes"><button type="submit">Cadastrar indicador</button></div>
+    </form>
+  </section>
+
+  <section id="indicadores-cadastrados" tabindex="-1" class="painel painel-conta" aria-labelledby="titulo-indicadores-cadastrados">
+    <h2 id="titulo-indicadores-cadastrados">Indicadores cadastrados</h2>
+    <ul id="lista-indicadores" class="lista-indicadores" aria-busy="true"></ul>
+  </section>
+  <noscript>Habilite o JavaScript para cadastrar indicadores.</noscript>
+</main>

@@ -1,0 +1,56 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; var conectado = User.Identity?.IsAuthenticated == true; }
+@section Scripts {
+  @if (conectado)
+  {
+    <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+  }
+}
+
+<main id="conteudo-principal" tabindex="-1" class="@(conectado ? "espaco-trabalho pagina-conta pagina-administracao" : "site-wrap guia")">
+  <h1>Ajuda e acessibilidade</h1>
+  <section id="orientacao-ajuda" tabindex="-1" class="painel" aria-labelledby="titulo-orientacao-ajuda">
+    <h2 id="titulo-orientacao-ajuda">Como pedir ajuda</h2>
+    <p>Consulte o <a href="/guia.html">Guia de uso</a> para criar uma conta, abrir uma ordem de serviço e acompanhar o atendimento. Se você estiver com dificuldade para entrar no portal, peça apoio ao contato de TI da sua empresa.</p>
+    <p>Use o canal reservado para registrar uma barreira de acessibilidade, discriminação ou desrespeito. Se precisar recorrer a outro canal, procure a pessoa responsável por ética na sua empresa.</p>
+    @if (!conectado)
+    {
+      <a class="botao" href="/login.html">Entrar para registrar ou acompanhar um relato</a>
+    }
+  </section>
+  @if (conectado)
+  {
+    <p id="mensagem" role="alert"></p>
+    <p id="retorno" role="status"></p>
+    <section id="novo-relato" tabindex="-1" class="painel" aria-labelledby="titulo-novo-relato">
+      <h2 id="titulo-novo-relato">Registrar um relato reservado</h2>
+      <p class="apoio">O relato fica visível para você e para o Consultor ADM da fornecedora, responsável pelo tratamento. Informe os dados necessários para entender o ocorrido.</p>
+      <form id="form-relato" method="post" action="/api/relatos">
+        <p>
+          <label for="relato-categoria">Tipo de relato</label>
+          <select id="relato-categoria" name="categoria" required>
+            <option value="">Selecione uma opção</option>
+            <option value="Acessibilidade">Barreira de acessibilidade</option>
+            <option value="Discriminacao">Discriminação ou desrespeito</option>
+          </select>
+        </p>
+        <p>
+          <label for="relato-ordem">Número da OS (opcional)</label>
+          <input id="relato-ordem" name="ordemId" type="number" min="1" max="2147483647" step="1" aria-describedby="relato-ordem-ajuda">
+          <small id="relato-ordem-ajuda">Informe apenas os números de uma OS à qual você tem acesso.</small>
+        </p>
+        <p>
+          <label for="relato-descricao">Descrição</label>
+          <textarea id="relato-descricao" name="descricao" maxlength="2000" required aria-describedby="relato-descricao-ajuda"></textarea>
+          <small id="relato-descricao-ajuda">Conte o que aconteceu e em qual tela ou etapa. Use até 2.000 caracteres.</small>
+        </p>
+        <div><button type="submit">Enviar relato</button></div>
+      </form>
+    </section>
+    <section id="acompanhar-relatos" tabindex="-1" class="painel" aria-labelledby="titulo-acompanhar-relatos">
+      <div class="cabecalho"><h2 id="titulo-acompanhar-relatos">Acompanhar relatos</h2><button type="button" id="atualizar-relatos" class="secundario">Atualizar relatos</button></div>
+      <div id="lista-relatos" aria-busy="true"></div>
+    </section>
+    <noscript>Habilite o JavaScript para registrar ou acompanhar seus relatos.</noscript>
+  }
+</main>

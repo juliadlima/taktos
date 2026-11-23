@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Taktos.MainTheme" parent="Maui.MainTheme">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowBackground">#F2F5F9</item>
+    <item name="android:statusBarColor">#142135</item>
+    <item name="android:windowLightStatusBar">false</item>
+    <item name="android:navigationBarColor">#142135</item>
+    <item name="android:windowLightNavigationBar">false</item>
+    <item name="colorAccent">#115370</item>
+    <item name="colorPrimary">#115370</item>
+    <item name="colorPrimaryDark">#142135</item>
+  </style>
+</resources>

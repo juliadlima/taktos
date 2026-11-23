@@ -1,0 +1,37 @@
+name: Implantar Taktos em VM
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  implantar:
+    runs-on: ubuntu-latest
+    environment: demonstracao
+    steps:
+      - name: Atualizar imagem e verificar serviço
+        env:
+          VM_HOST: ${{ secrets.TAKTOS_VM_HOST }}
+          VM_USER: ${{ secrets.TAKTOS_VM_USER }}
+          VM_CHAVE: ${{ secrets.TAKTOS_VM_CHAVE }}
+          VM_HOST_KEY: ${{ secrets.TAKTOS_VM_HOST_KEY }}
+        run: |
+          set -euo pipefail
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$VM_CHAVE" > "$HOME/.ssh/taktos"
+          printf '%s\n' "$VM_HOST_KEY" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/taktos"
+          ssh -i "$HOME/.ssh/taktos" -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes \
+            "$VM_USER@$VM_HOST" 'bash -s' <<'REMOTE'
+          set -euo pipefail
+          cd /opt/taktos
+          docker compose -f compose.yaml -f infra/compose.nuvem.yaml pull portal
+          docker compose -f compose.yaml -f infra/compose.nuvem.yaml up -d --no-build
+          endereco="$(docker compose -f compose.yaml -f infra/compose.nuvem.yaml port portal 8080)"
+          for tentativa in $(seq 1 40); do
+            if curl -fs "http://$endereco/health/db" >/dev/null; then exit 0; fi
+            sleep 3
+          done
+          exit 1
+          REMOTE

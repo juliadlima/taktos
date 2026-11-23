@@ -1,0 +1,37 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+
+<main id="conteudo-principal" tabindex="-1" class="@(User.Identity?.IsAuthenticated == true ? "espaco-trabalho guia" : "site-wrap guia")">
+  <article class="painel guia-conteudo">
+    <h1>Guia de uso do Taktos</h1>
+    <section id="guia-acesso" tabindex="-1">
+      <h2>Criar conta e entrar</h2>
+      <p>Abra <a href="/cadastro.html">Criar conta</a>. Use o nome ou o código da empresa que a sua fornecedora informou. Após o envio, aguarde a aprovação e entre com seu e-mail e sua senha.</p>
+      <p>Use Tab e Shift+Tab para avançar ou voltar entre os controles. Ative botões com Enter ou Espaço. No início da página, o atalho <strong>Pular para o conteúdo principal</strong> leva direto à área de trabalho.</p>
+    </section>
+    <section id="guia-abrir" tabindex="-1">
+      <h2>Abrir e acompanhar uma OS</h2>
+      <p>Escolha o sistema, informe o tipo de atendimento e descreva o resultado esperado. Por exemplo, em uma correção de protocolo, descreva o que saiu no documento e o que deveria ter saído. Você pode consultar a situação e a previsão na lista de ordens.</p>
+    </section>
+    <section id="guia-triagem" tabindex="-1">
+      <h2>Triar e tratar a demanda</h2>
+      <p>A fornecedora organiza as OSs no Kanban. Use os botões de situação ou abra a triagem para registrar a prioridade, o responsável e a previsão. Os botões e os filtros podem ser usados por teclado, clique ou toque.</p>
+    </section>
+    <section id="guia-mensagens" tabindex="-1">
+      <h2>Trocar mensagens e validar versões</h2>
+      <p>Use as mensagens da OS para pedir informações e responder ao atendimento. Se for necessário acesso à VPN, registre o pedido na OS e siga o procedimento de liberação da empresa cliente. Ao enviar a versão para homologação, associe a referência da GMUD. Se a entrega for devolvida, descreva a situação observada para orientar o ajuste.</p>
+    </section>
+    <section id="guia-convivencia" tabindex="-1">
+      <h2>Convivência no atendimento</h2>
+      <p>Use linguagem respeitosa. A prioridade é definida pelo impacto e pela urgência da demanda. Em <a href="/ajuda.html">Ajuda e acessibilidade</a>, você pode registrar uma barreira de acesso, discriminação ou desrespeito e acompanhar o retorno em um espaço reservado.</p>
+    </section>
+    <section id="guia-termos" tabindex="-1">
+      <h2>Termos do portal</h2>
+      <dl>
+        <dt>Ordem de serviço (OS)</dt><dd>Registro de um pedido de correção ou melhoria.</dd>
+        <dt>Gestão de mudanças (GMUD)</dt><dd>Referência da mudança que acompanha a versão entregue.</dd>
+        <dt>Homologação</dt><dd>Etapa em que a equipe cliente testa a versão e decide se aprova ou devolve para ajuste.</dd>
+      </dl>
+    </section>
+  </article>
+</main>

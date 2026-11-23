@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taktos.API", "Taktos.API\Taktos.API.csproj", "{927DCA86-49AF-501B-8A05-2BFB262E2CAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taktos.Domain", "Taktos.Domain\Taktos.Domain.csproj", "{BEB2C7FD-6404-5706-AC7F-6D199AE7E71C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taktos.Infrastructure", "Taktos.Infrastructure\Taktos.Infrastructure.csproj", "{6A64BF68-D81F-559C-8380-63FF59000CD4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taktos.Web", "Taktos.Web\Taktos.Web.csproj", "{F8A48131-6FD5-544F-B970-45F85A2F867A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Taktos.Mobile", "Taktos.Mobile\Taktos.Mobile.csproj", "{E846A53E-BACF-5290-95F6-E4221A6E7E51}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{927DCA86-49AF-501B-8A05-2BFB262E2CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{927DCA86-49AF-501B-8A05-2BFB262E2CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{927DCA86-49AF-501B-8A05-2BFB262E2CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{927DCA86-49AF-501B-8A05-2BFB262E2CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB2C7FD-6404-5706-AC7F-6D199AE7E71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB2C7FD-6404-5706-AC7F-6D199AE7E71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB2C7FD-6404-5706-AC7F-6D199AE7E71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB2C7FD-6404-5706-AC7F-6D199AE7E71C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A64BF68-D81F-559C-8380-63FF59000CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A64BF68-D81F-559C-8380-63FF59000CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A64BF68-D81F-559C-8380-63FF59000CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A64BF68-D81F-559C-8380-63FF59000CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8A48131-6FD5-544F-B970-45F85A2F867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A48131-6FD5-544F-B970-45F85A2F867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A48131-6FD5-544F-B970-45F85A2F867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A48131-6FD5-544F-B970-45F85A2F867A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E846A53E-BACF-5290-95F6-E4221A6E7E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E846A53E-BACF-5290-95F6-E4221A6E7E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E846A53E-BACF-5290-95F6-E4221A6E7E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E846A53E-BACF-5290-95F6-E4221A6E7E51}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,48 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = null; }
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142135">
+  <title>@Model.Titulo | @Model.NomePortal</title>
+  <script src="/_content/Taktos.Web/formularios.js" defer></script>
+  <script src="/_content/Taktos.Web/acesso.js" defer></script>
+  <link rel="stylesheet" href="/_content/Taktos.Web/portal.css">
+</head>
+<body class="pagina-publica">
+<a class="atalho-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<header class="site-header">
+  <div class="site-wrap site-nav">
+    <a class="marca" href="/" aria-label="Taktos, início"><span class="marca-simbolo" aria-hidden="true"></span><span>@Model.NomePortal</span></a>
+    <nav aria-label="Navegação"><a href="/guia.html">Guia de uso</a><a href="/ajuda.html">Ajuda e acessibilidade</a></nav>
+  </div>
+</header>
+<main id="conteudo-principal" tabindex="-1" class="site-wrap acesso">
+  <section class="acesso-painel" aria-labelledby="titulo-acesso">
+    <div class="acesso-conteudo">
+      <h1 id="titulo-acesso">Acesso ao Taktos</h1>
+      <p id="mensagem" role="status"></p>
+
+      <form id="formulario" method="post" action="/api/acesso/login" hidden>
+        <p class="apoio">Entre com os dados de acesso da sua empresa.</p>
+        <p>
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" autocomplete="username" maxlength="254" required>
+        </p>
+        <p>
+          <label for="senha">Senha</label>
+          <input id="senha" name="senha" type="password" autocomplete="current-password" maxlength="128" required>
+        </p>
+        <button id="entrar" type="submit">Entrar</button>
+        <p class="apoio">Primeiro acesso? <a href="/cadastro.html">Criar conta</a></p>
+      </form>
+
+      <noscript>Habilite o JavaScript para entrar no portal.</noscript>
+    </div>
+  </section>
+  <div class="acesso-imagem" aria-hidden="true"><img src="/_content/Taktos.Web/imagens/terminal-ao-anoitecer.webp" alt=""></div>
+</main>
+</body>
+</html>

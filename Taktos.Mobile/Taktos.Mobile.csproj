@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <MobileFramework Condition="'$(MobileFramework)' == ''">net8.0-android</MobileFramework>
+    <TargetFramework>$(MobileFramework)</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ApplicationTitle>Taktos</ApplicationTitle>
+    <ApplicationId>com.taktos.portal</ApplicationId>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <SupportedOSPlatformVersion>23.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Taktos.Domain/Taktos.Domain.csproj" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <AndroidResource Remove="Platforms/Android/Resources/values/taktosstyles.xml" />
+    <AndroidResource Include="Platforms/Android/Resources/values/taktosstyles.xml" TargetPath="values/taktosstyles.xml" />
+    <EmbeddedResource Include="../Taktos.Web/wwwroot/imagens/terminal-ao-anoitecer.webp"
+                      LogicalName="Taktos.Mobile.terminal_ao_anoitecer.webp" />
+    <MauiIcon Include="Resources/AppIcon/taktos.svg" Color="#113E36" />
+  </ItemGroup>
+</Project>

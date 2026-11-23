@@ -1,0 +1,43 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho pagina-conta pagina-administracao">
+  <div class="cabecalho">
+    <div>
+      <h1>Aprovações de cadastro</h1>
+      <p class="apoio">Aprove solicitações e gerencie as contas das empresas atendidas.</p>
+    </div>
+    <button id="atualizar-aprovacoes" class="secundario" type="button">Atualizar</button>
+  </div>
+  <p id="mensagem" role="alert"></p>
+  <p id="retorno" role="status"></p>
+  <section id="solicitacoes-pendentes" tabindex="-1" class="painel painel-conta" aria-labelledby="titulo-pendentes">
+    <h2 id="titulo-pendentes">Solicitações pendentes</h2>
+    <p class="apoio">Confirme se a pessoa pertence à empresa indicada antes de liberar o acesso.</p>
+    <div id="lista-aprovacoes" aria-busy="true"></div>
+  </section>
+
+  <section id="criar-conta-manual" tabindex="-1" class="painel" aria-labelledby="titulo-nova-conta">
+    <h2 id="titulo-nova-conta">Criar conta manualmente</h2>
+    <p class="apoio">A conta criada pela fornecedora já pode entrar usando a senha inicial.</p>
+    <p id="sem-empresa-ativa" class="apoio" hidden>Cadastre ou reative uma empresa para criar uma conta. <a href="/empresas.html">Ver empresas</a></p>
+    <form id="form-conta-manual" method="post" action="/api/cadastro/contas" hidden>
+      <p><label for="manual-empresa">Empresa cliente</label><select id="manual-empresa" name="empresaId" required></select></p>
+      <div class="grade">
+        <p><label for="manual-nome">Nome completo</label><input id="manual-nome" name="nome" autocomplete="off" maxlength="120" required></p>
+        <p><label for="manual-email">E-mail</label><input id="manual-email" name="email" type="email" autocomplete="off" maxlength="254" required></p>
+      </div>
+      <p><label for="manual-senha">Senha inicial</label><input id="manual-senha" name="senha" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="manual-senha-ajuda" required><small id="manual-senha-ajuda">Use de 12 a 128 caracteres.</small></p>
+      <button type="submit">Criar conta</button>
+    </form>
+  </section>
+
+  <section id="contas-cadastradas" tabindex="-1" class="painel painel-conta" aria-labelledby="titulo-contas">
+    <h2 id="titulo-contas">Contas cadastradas</h2>
+    <div id="lista-contas" aria-busy="true"></div>
+  </section>
+  <noscript>Habilite o JavaScript para usar esta página.</noscript>
+</main>

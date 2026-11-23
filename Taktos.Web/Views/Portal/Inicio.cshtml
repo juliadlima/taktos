@@ -1,0 +1,35 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = null; }
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142135">
+  <title>@Model.Titulo | @Model.NomePortal</title>
+  <link rel="stylesheet" href="/_content/Taktos.Web/portal.css">
+</head>
+<body class="pagina-publica">
+<a class="atalho-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<header class="site-header">
+  <div class="site-wrap site-nav">
+    <a class="marca" href="/" aria-label="Taktos, início"><span class="marca-simbolo" aria-hidden="true"></span><span>@Model.NomePortal</span></a>
+    <nav aria-label="Navegação"><a href="/guia.html">Guia de uso</a><a href="/ajuda.html">Ajuda e acessibilidade</a></nav>
+  </div>
+</header>
+<main id="conteudo-principal" tabindex="-1" class="site-wrap inicio">
+  <section class="capa" aria-labelledby="titulo-inicio">
+    <div class="capa-texto">
+      <h1 id="titulo-inicio">Acompanhe ordens<br class="quebra-titulo"> e entregas.</h1>
+      <p>Organize o atendimento, consulte previsões e valide versões de software em um só lugar.</p>
+      <div class="acoes">
+        <a class="botao botao-destaque" href="/login.html">Acessar o portal</a>
+      </div>
+    </div>
+    <div class="capa-imagem" aria-hidden="true">
+      <img src="/_content/Taktos.Web/imagens/terminal-ao-anoitecer.webp" alt="" fetchpriority="high">
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,52 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = null; }
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142135">
+  <title>@Model.Titulo | @Model.NomePortal</title>
+  <link rel="stylesheet" href="/_content/Taktos.Web/portal.css">
+  <script src="/_content/Taktos.Web/formularios.js" defer></script>
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+</head>
+<body class="pagina-publica">
+<a class="atalho-conteudo" href="#conteudo-principal">Pular para o conteúdo principal</a>
+<header class="site-header">
+  <div class="site-wrap site-nav">
+    <a class="marca" href="/" aria-label="Taktos, início"><span class="marca-simbolo" aria-hidden="true"></span><span>@Model.NomePortal</span></a>
+    <nav aria-label="Navegação"><a href="/login.html">Entrar</a><a href="/ajuda.html">Ajuda e acessibilidade</a></nav>
+  </div>
+</header>
+<main id="conteudo-principal" tabindex="-1" class="site-wrap acesso">
+  <section class="acesso-painel" aria-labelledby="titulo-cadastro">
+    <div class="acesso-conteudo">
+      <h1 id="titulo-cadastro">Criar conta</h1>
+      <p id="mensagem" role="alert"></p>
+      <form id="criar-conta" method="post" action="/api/cadastro">
+        <p class="apoio">Preencha seus dados. A equipe fornecedora vai analisar sua solicitação.</p>
+        <p><label for="cad-nome">Nome completo</label><input id="cad-nome" name="nome" autocomplete="name" maxlength="120" required></p>
+        <p><label for="cad-email">E-mail</label><input id="cad-email" name="email" type="email" autocomplete="username" maxlength="254" required></p>
+        <p><label for="cad-empresa">Empresa</label><input id="cad-empresa" name="empresa" autocomplete="organization" maxlength="120" aria-describedby="empresa-ajuda" required><small id="empresa-ajuda">Informe o nome da empresa cadastrada no Taktos ou o código que a fornecedora informou.</small></p>
+        <p>
+          <label for="cad-senha">Senha</label>
+          <input id="cad-senha" name="senha" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="senha-ajuda" required>
+          <small id="senha-ajuda">Use de 12 a 128 caracteres.</small>
+        </p>
+        <p><label for="cad-confirmacao">Confirme a senha</label><input id="cad-confirmacao" name="confirmacao" type="password" autocomplete="new-password" maxlength="128" required></p>
+        <button type="submit">Criar conta</button>
+        <p class="apoio">Já tem conta? <a href="/login.html">Entrar no Taktos</a></p>
+      </form>
+      <section id="cad-sucesso" hidden>
+        <h2 id="cad-concluido" tabindex="-1">Solicitação enviada</h2>
+        <p>Seu cadastro está aguardando aprovação da equipe fornecedora. Depois da liberação, entre com o e-mail e a senha que você cadastrou.</p>
+        <a class="botao" href="/login.html">Ir para o login</a>
+      </section>
+      <noscript>Habilite o JavaScript para cadastrar a conta.</noscript>
+    </div>
+  </section>
+  <div class="acesso-imagem" aria-hidden="true"><img src="/_content/Taktos.Web/imagens/terminal-ao-anoitecer.webp" alt=""></div>
+</main>
+</body>
+</html>

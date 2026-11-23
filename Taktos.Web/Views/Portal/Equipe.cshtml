@@ -1,0 +1,33 @@
+@model Taktos.Web.Models.PaginaPortal
+@{ Layout = "~/Views/Shared/_LayoutPortal.cshtml"; }
+@section Scripts {
+  <script src="/_content/Taktos.Web/cadastro.js" defer></script>
+}
+
+<main id="conteudo-principal" tabindex="-1" class="espaco-trabalho pagina-conta pagina-administracao">
+  <h1>Equipe fornecedora</h1>
+  <p id="mensagem" role="alert"></p>
+  <p id="retorno" role="status"></p>
+
+  <section id="novo-usuario" tabindex="-1" class="painel" aria-labelledby="titulo-usuario-equipe">
+    <h2 id="titulo-usuario-equipe">Novo usuário</h2>
+    <form id="form-usuario-equipe" method="post" action="/api/equipe/usuarios">
+      <div class="grade">
+        <p><label for="equipe-nome">Nome completo</label><input id="equipe-nome" name="nome" maxlength="120" required></p>
+        <p><label for="equipe-email">E-mail</label><input id="equipe-email" name="email" type="email" maxlength="254" required></p>
+      </div>
+      <p><label for="equipe-senha">Senha inicial</label><input id="equipe-senha" name="senha" type="password" autocomplete="new-password" minlength="12" maxlength="128" aria-describedby="equipe-senha-ajuda" required><small id="equipe-senha-ajuda">Use de 12 a 128 caracteres.</small></p>
+      <button type="submit">Criar usuário</button>
+    </form>
+  </section>
+
+  <section id="usuarios-fornecedora" tabindex="-1" class="painel painel-conta" aria-labelledby="titulo-equipe-cadastrada">
+    <h2 id="titulo-equipe-cadastrada">Usuários da fornecedora</h2>
+    <div id="lista-equipe-fornecedora" aria-busy="true"></div>
+  </section>
+  <section id="consultor-adm" tabindex="-1" class="painel painel-conta" aria-labelledby="titulo-consultor-adm">
+    <h2 id="titulo-consultor-adm">Consultor ADM</h2>
+    <div id="conta-administradora" aria-busy="true"></div>
+  </section>
+  <noscript>Habilite o JavaScript para gerenciar a equipe.</noscript>
+</main>

@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <PortalFramework Condition="'$(PortalFramework)' == ''">net8.0</PortalFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+</Project>
